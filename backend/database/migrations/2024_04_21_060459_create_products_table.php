@@ -15,8 +15,17 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('category_id');
             $table->string('name');
-            $table->string('img')->nullable();
+            $table->string('img');
+            $table->string('img1')->nullable();
+            $table->string('img2')->nullable();
+            $table->string('img3')->nullable();
+            $table->string('img4')->nullable();
             $table->string('price');
+            $table->text('description');
+            $table->string('size');
+            $table->string('color');
+            $table->string('material');
+            $table->string('weight');
             $table->timestamps();
         });
     }

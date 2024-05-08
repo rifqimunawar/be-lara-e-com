@@ -1,8 +1,24 @@
+import { useEffect, useState } from 'react'
 import FooterComponent from '../components/FooterComponent'
 import ListProductsComponent from '../components/ListProductsComponent'
 import NavbarComponent from '../components/NavbarComponent'
+import { getCategory } from '../api'
 
 export default function HomePage() {
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const data = await getCategory()
+        setCategories(data)
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+      }
+    }
+    fetchCategories()
+  }, [])
+
   return (
     <div>
       <NavbarComponent />
@@ -39,84 +55,26 @@ export default function HomePage() {
             shop by category
           </h2>
           <div className="grid grid-cols-3 gap-3">
-            <div className="relative rounded-2xl overflow-hidden group">
-              <img
-                src="images/category/category-1.jpg"
-                alt="category 1"
-                className="w-full"
-              />
-              <a
-                href="#"
-                className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
+            {/* category */}
+            {categories.map((category) => (
+              <div
+                key={category.id}
+                className="relative rounded-2xl overflow-hidden group"
               >
-                Bedroom
-              </a>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden group">
-              <img
-                src="images/category/category-2.jpg"
-                alt="category 2"
-                className="w-full"
-              />
-              <a
-                href="#"
-                className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
-              >
-                Mattress
-              </a>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden group">
-              <img
-                src="images/category/category-3.jpg"
-                alt="category 3"
-                className="w-full"
-              />
-              <a
-                href="#"
-                className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
-              >
-                Outdoor
-              </a>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden group">
-              <img
-                src="images/category/category-4.jpg"
-                alt="category 4"
-                className="w-full"
-              />
-              <a
-                href="#"
-                className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
-              >
-                Sofa
-              </a>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden group">
-              <img
-                src="images/category/category-5.jpg"
-                alt="category 5"
-                className="w-full"
-              />
-              <a
-                href="#"
-                className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
-              >
-                Living Room
-              </a>
-            </div>
-            <div className="relative rounded-2xl overflow-hidden group">
-              <img
-                src="images/category/category-6.jpg"
-                alt="category 6"
-                className="w-full"
-              />
-              <a
-                href="#"
-                className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
-              >
-                Kitchen
-              </a>
-            </div>
+                <img
+                  src={category.img}
+                  alt={category.name}
+                  className="w-full h-60 object-cover"
+                />
+                <a
+                  href="#"
+                  className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
+                >
+                  {category.name}
+                </a>
+              </div>
+            ))}
+            {/* category */}
           </div>
         </div>
       </div>

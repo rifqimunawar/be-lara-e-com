@@ -57,6 +57,9 @@ class Backup extends Command
         'products' => [
             'products',
         ],
+        'product_images' => [
+            'product_images',
+        ],
     ];    
     if ($opt_users == 1 || $arg_type == 'users') echo shell_exec('php artisan iseed users --force');
     foreach ($tables as $k => $t) {

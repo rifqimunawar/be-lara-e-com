@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
@@ -14,13 +15,16 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return ['Laravel' => app()->version()];
-});
+// Route::get('/', function () {
+//     return ['Laravel' => app()->version()];
+// });
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';
 
 
 // Route::middleware(['auth:sanctum'])->group(function () {
 //   Route::get('product/{id}', [ProductController::class, 'show']);
 // });
+
+
+// Route::get('/', [DashboardController::class, 'index']);

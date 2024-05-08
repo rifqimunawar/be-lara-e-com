@@ -11,32 +11,90 @@ class ProductController extends Controller
 
   public function index()
   {
-    $products = Product::all();
-    foreach ($products as $product) {
-      $product->img = env('MASTER_IMG_URL') . 'img/' . $product->img;
-  }
-
+      $products = Product::all();
+      foreach ($products as $product) {
+          $product->img = env('MASTER_IMG_URL') . 'img/' . $product->img;
+          $product->img1 = env('MASTER_IMG_URL') . 'img/' . $product->img1;
+          $product->img2 = env('MASTER_IMG_URL') . 'img/' . $product->img2;
+          $product->img3 = env('MASTER_IMG_URL') . 'img/' . $product->img3;
+          $product->img4 = env('MASTER_IMG_URL') . 'img/' . $product->img4;
+      }
+  
       return response()->json([
           "products" => $products
       ], 200);
   }
   
 
+  public function recomend()
+  {
+      $products = Product::latest()->take(4)->get();
+      
+      foreach ($products as $product) {
+        $product->img = env('MASTER_IMG_URL') . 'img/' . $product->img;
+        $product->img1 = env('MASTER_IMG_URL') . 'img/' . $product->img1;
+        $product->img2 = env('MASTER_IMG_URL') . 'img/' . $product->img2;
+        $product->img3 = env('MASTER_IMG_URL') . 'img/' . $product->img3;
+        $product->img4 = env('MASTER_IMG_URL') . 'img/' . $product->img4;
+        $product->price = number_format($product->price, 0, ',', '.');
+      }
+  
+      return response()->json([
+          "products" => $products
+      ], 200);
+  }
+  
+  
+  
+
   public function store(ProductStoreRequest $request)
   {
     try {
+      $category_id = $request->category_id;
       $name = $request->name;
       $price = $request->price;
-      $category_id = $request->category_id;
+      $description = $request->description;
+      $size = $request->size;
+      $color = $request->color;
+      $material = $request->material;
+      $weight = $request->weight;
+
       $img = $request->file('img');
-      $newFileName = 'product' . now()->timestamp . '.' . $img->getClientOriginalExtension();
-      $img->move(public_path('img/'), $newFileName);
+      $image = 'product' . "_img_" . now()->timestamp . '.' . $img->getClientOriginalExtension();
+      $img->move(public_path('img/'), $image);
+
+      $img1 = $request->file('img1');
+      $image1 = 'product' . "_img1_" . now()->timestamp . '.' . $img1->getClientOriginalExtension();
+      $img1->move(public_path('img/'), $image1);
+
+      $img2 = $request->file('img2');
+      $image2 = 'product' . "_img2_" . now()->timestamp . '.' . $img2->getClientOriginalExtension();
+      $img2->move(public_path('img/'), $image2);
+
+      $img3 = $request->file('img3');
+      $image3 = 'product' . "_img3_" . now()->timestamp . '.' . $img3->getClientOriginalExtension();
+      $img3->move(public_path('img/'), $image3);
+
+      $img4 = $request->file('img4');
+      $image4 = 'product' . "_img4_" . now()->timestamp . '.' . $img4->getClientOriginalExtension();
+      $img4->move(public_path('img/'), $image4);
+
 
       Product::create([
         'name' => $name,
         'category_id' => $category_id,
-        'img' => $newFileName,
+        'img' => $image,
+        'img1' => $image1,
+        'img2' => $image2,
+        'img3' => $image3,
+        'img4' => $image4,
+
         'price' => $price,
+        'description' => $description,
+        'size' => $size,
+        'color' => $color,
+        'material' => $material,
+        'weight' => $weight,
       ]);
 
       return response()->json([
