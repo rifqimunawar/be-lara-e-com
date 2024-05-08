@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getCategory } from '../api'
+import { getCategory, logoImg } from '../api'
 
 export default function NavbarComponent() {
   const [searchValue, setSearchValue] = useState('')
@@ -30,7 +30,7 @@ export default function NavbarComponent() {
       <div className="py-4 shadow-sm bg-white">
         <div className="container mx-auto flex items-center justify-between">
           <Link to="/" onClick={() => navigate('/')}>
-            <img src="images/logo.svg" alt="Logo" className="w-32" />
+            <img src={logoImg} alt="Logo" className="w-32" />
           </Link>
 
           <div className="w-ful max-w-2xl relative flex">

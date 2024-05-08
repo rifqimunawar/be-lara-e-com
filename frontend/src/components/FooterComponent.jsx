@@ -1,10 +1,12 @@
+import { logoImg, metImg } from '../api'
+
 export default function FooterComponent() {
   return (
     <section className="">
       <div className="bg-white pt-16 pb-12 border-t border-gray-100">
         <div className="container mx-auto grid grid-cols-1">
           <div className="col-span-1 space-y-4">
-            <img src="images/logo.svg" alt="logo" className="w-30" />
+            <img src={logoImg} alt="logo" className="w-30" />
             <div className="mr-2">
               <p className="text-gray-500">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia,
@@ -153,7 +155,7 @@ export default function FooterComponent() {
         <div className="container flex items-center justify-between">
           <p className="text-white">&copy; TailCommerce - All Right Reserved</p>
           <div>
-            <img src="images/methods.png" alt="methods" className="h-5" />
+            <img src={metImg} alt="methods" className="h-5" />
           </div>
         </div>
       </div>

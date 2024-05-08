@@ -18,6 +18,7 @@ class ProductController extends Controller
           $product->img2 = env('MASTER_IMG_URL') . 'img/' . $product->img2;
           $product->img3 = env('MASTER_IMG_URL') . 'img/' . $product->img3;
           $product->img4 = env('MASTER_IMG_URL') . 'img/' . $product->img4;
+          $product->price = number_format($product->price, 0, ',', '.');
       }
   
       return response()->json([

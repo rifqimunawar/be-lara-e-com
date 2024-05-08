@@ -10,7 +10,6 @@ export default function ListProductsComponent() {
       try {
         const data = await getProductRecomend()
         setProducts(data)
-        console.log(data, 'product') // Perbaikan: Pisahkan data dari string pada console.log()
       } catch (error) {
         console.error('Error fetching products:', error)
       }
@@ -32,15 +31,15 @@ export default function ListProductsComponent() {
                 <img src={product.img} alt={product.name} className="w-full" />
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
                   <Link
-                    // to={`${product.id}/detail`}
-                    to={`/detail`}
+                    to={`/products/${product.id}/detail`}
+                    // to={`/detail`}
                     className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
                     title="view product"
                   >
                     <i className="bi bi-search"></i>
                   </Link>
                   <Link
-                    to={`${product.id}/detail`}
+                    to={`/products/${product.id}/detail`}
                     className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
                     title="add to wishlist"
                   >

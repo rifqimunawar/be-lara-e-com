@@ -3,8 +3,12 @@ import BreadcrumbsComponent from '../components/BreadcrumbsComponent'
 import ListProductsComponent from '../components/ListProductsComponent'
 import FooterComponent from '../components/FooterComponent'
 import { useState } from 'react'
+import { useParams } from 'react-router-dom'
 
 export default function DetailPage() {
+  let { id } = useParams()
+  console.log(id, ' biji kontol')
+
   function ImageGallery() {
     const [mainImage, setMainImage] = useState('images/products/product1.jpg')
 

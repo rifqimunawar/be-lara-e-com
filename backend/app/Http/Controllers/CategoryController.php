@@ -65,6 +65,7 @@ class CategoryController extends Controller
       // Mengubah URL gambar untuk setiap produk
       foreach ($category->products as $product) {
           $product->img = env('MASTER_IMG_URL') . 'img/' . $product->img;
+          $product->price = number_format($product->price, 0, ',', '.');
       }
 
       return response()->json([
