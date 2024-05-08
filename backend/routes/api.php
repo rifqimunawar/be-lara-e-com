@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -23,8 +24,15 @@ Route::post('logout', [UserAuthController::class, 'logout']);
 
 Route::get('products', [ProductController::class, 'index']);
 Route::post('products', [ProductController::class, 'store']);
-Route::put('product/{id}', [ProductController::class, 'update']);
+Route::get('product/{id}', [ProductController::class, 'show']);
+Route::put('product/{id}/update', [ProductController::class, 'update']);
 Route::delete('product/{id}', [ProductController::class, 'destroy']);
+
+Route::get('category', [CategoryController::class, 'index']);
+Route::post('category', [CategoryController::class, 'store']);
+Route::get('category/{id}', [CategoryController::class, 'show']);
+Route::put('category/{id}/update', [CategoryController::class, 'update']);
+Route::delete('category/{id}', [CategoryController::class, 'destroy']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::get('users', [UserAuthController::class, 'index']);

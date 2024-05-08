@@ -12,7 +12,10 @@ class ProductController extends Controller
   public function index()
   {
     $products = Product::all();
-  
+    foreach ($products as $product) {
+      $product->img = env('MASTER_IMG_URL') . 'img/' . $product->img;
+  }
+
       return response()->json([
           "products" => $products
       ], 200);
@@ -24,14 +27,15 @@ class ProductController extends Controller
     try {
       $name = $request->name;
       $price = $request->price;
-      $img = $request->img;
-      // $img = $request->file('img');
-      // $newFileName = 'product' . now()->timestamp . '.' . $img->getClientOriginalExtension();
-      // $img->move(public_path('img/'), $newFileName);
+      $category_id = $request->category_id;
+      $img = $request->file('img');
+      $newFileName = 'product' . now()->timestamp . '.' . $img->getClientOriginalExtension();
+      $img->move(public_path('img/'), $newFileName);
 
       Product::create([
         'name' => $name,
-        'img' => $img,
+        'category_id' => $category_id,
+        'img' => $newFileName,
         'price' => $price,
       ]);
 
@@ -48,7 +52,7 @@ class ProductController extends Controller
   public function show($id)
   {
     $product = Product::find($id);
-
+    $product->img = env('MASTER_IMG_URL') . 'img/' . $product->img;
     if (!$product) {
       return response()->json([
         'product not found'
