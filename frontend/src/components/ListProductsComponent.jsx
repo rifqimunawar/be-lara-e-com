@@ -15,7 +15,7 @@ export default function ListProductsComponent() {
       }
     }
     fetchProducts()
-  }, []) // Perbaikan: Tambahkan dependensi kosong untuk mencegah pemanggilan berulang
+  }, [])
 
   return (
     <div className="bg-white">
@@ -28,7 +28,11 @@ export default function ListProductsComponent() {
               key={product.id}
             >
               <div className="relative">
-                <img src={product.img} alt={product.name} className="w-full" />
+                <img
+                  src={product.img}
+                  alt={product.name}
+                  className="w-full h-40 object-cover"
+                />
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
                   <Link
                     to={`/products/${product.id}/detail`}

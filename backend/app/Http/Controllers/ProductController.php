@@ -112,6 +112,11 @@ class ProductController extends Controller
   {
     $product = Product::find($id);
     $product->img = env('MASTER_IMG_URL') . 'img/' . $product->img;
+    $product->img1 = env('MASTER_IMG_URL') . 'img/' . $product->img1;
+    $product->img2 = env('MASTER_IMG_URL') . 'img/' . $product->img2;
+    $product->img3 = env('MASTER_IMG_URL') . 'img/' . $product->img3;
+    $product->img4 = env('MASTER_IMG_URL') . 'img/' . $product->img4;
+    $product->price = number_format($product->price, 0, ',', '.');
     if (!$product) {
       return response()->json([
         'product not found'

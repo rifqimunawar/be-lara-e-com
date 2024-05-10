@@ -2,44 +2,87 @@ import NavbarComponent from '../components/NavbarComponent'
 import BreadcrumbsComponent from '../components/BreadcrumbsComponent'
 import ListProductsComponent from '../components/ListProductsComponent'
 import FooterComponent from '../components/FooterComponent'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { getCategory, getShowProduct } from '../api'
+import PropTypes from 'prop-types' // Import PropTypes
 
-export default function DetailPage() {
-  let { id } = useParams()
-  console.log(id, ' biji kontol')
+function ImageGallery({ data }) {
+  const [mainImage, setMainImage] = useState('')
 
-  function ImageGallery() {
-    const [mainImage, setMainImage] = useState('images/products/product1.jpg')
+  useEffect(() => {
+    // Set nilai awal mainImage ketika data.img berubah
+    setMainImage(data.img)
+  }, [data.img]) // Dependensi useEffect
 
-    const changeMainImage = (newImage) => {
-      setMainImage(newImage)
-    }
+  const changeMainImage = (newImage) => {
+    setMainImage(newImage)
+  }
 
-    return (
-      <div>
-        <img src={mainImage} alt="product" className="w-full" />
+  return (
+    <div>
+      <img
+        src={mainImage}
+        alt="product"
+        className="w-full h-auto object-cover"
+      />
 
-        <div className="grid grid-cols-5 gap-4 mt-4">
-          {[
-            'product2.jpg',
-            'product3.jpg',
-            'product4.jpg',
-            'product5.jpg',
-            'product6.jpg',
-          ].map((imageName, index) => (
+      <div className="grid grid-cols-5 gap-4 mt-4">
+        {[data.img, data.img1, data.img2, data.img3, data.img4].map(
+          (imageName, index) => (
             <img
               key={index}
-              src={`images/products/${imageName}`}
+              src={imageName}
               alt={`product${index + 2}`}
-              className="w-full cursor-pointer border"
-              onClick={() => changeMainImage(`images/products/${imageName}`)}
+              className="w-full cursor-pointer border h-20 object-cover"
+              onClick={() => changeMainImage(imageName)}
             />
-          ))}
-        </div>
+          )
+        )}
       </div>
-    )
-  }
+    </div>
+  )
+}
+
+ImageGallery.propTypes = {
+  data: PropTypes.shape({
+    img: PropTypes.string.isRequired,
+    img1: PropTypes.string.isRequired,
+    img2: PropTypes.string.isRequired,
+    img3: PropTypes.string.isRequired,
+    img4: PropTypes.string.isRequired,
+  }).isRequired,
+}
+
+// Komponen DetailPage
+export default function DetailPage() {
+  let { id } = useParams()
+  const [showProduct, setShowProduct] = useState({})
+
+  useEffect(() => {
+    async function fetchShowProduct() {
+      try {
+        const data = await getShowProduct(id)
+        setShowProduct(data)
+      } catch (error) {
+        console.error('error', error)
+      }
+    }
+    fetchShowProduct()
+  }, [id])
+
+  const [categories, setCategories] = useState([])
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const categoryData = await getCategory()
+        setCategories(categoryData)
+      } catch (error) {
+        console.error('Error fetching categories:', error)
+      }
+    }
+    fetchCategories()
+  }, [])
 
   return (
     <div>
@@ -47,11 +90,9 @@ export default function DetailPage() {
       <div className="bg-white py-10">
         <BreadcrumbsComponent />
         <div className="container mx-auto grid grid-cols-2 gap-6">
-          <ImageGallery />
+          <ImageGallery data={showProduct} />
           <div>
-            <h2 className="text-3xl font-medium uppercase mb-2">
-              Italian L Shape Sofa
-            </h2>
+            <h2 className="text-3xl font-medium mb-2">{showProduct.name}</h2>
             {/* detail */}
 
             <div className="flex items-center mb-4">
@@ -85,7 +126,16 @@ export default function DetailPage() {
               </p>
               <p className="space-x-2">
                 <span className="text-gray-800 font-semibold">Category: </span>
-                <span className="text-gray-600">Sofa</span>
+                {categories.map((category) => {
+                  if (category.id === showProduct.category_id) {
+                    return (
+                      <span className="text-gray-600" key={category.id}>
+                        {category.name}
+                      </span>
+                    )
+                  }
+                  return null
+                })}
               </p>
               <p className="space-x-2">
                 <span className="text-gray-800 font-semibold">SKU: </span>
@@ -93,16 +143,11 @@ export default function DetailPage() {
               </p>
             </div>
             <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
-              <p className="text-xl text-primary font-semibold">$45.00</p>
-              <p className="text-base text-gray-400 line-through">$55.00</p>
+              <p className="text-xl text-primary font-semibold">
+                Rp: {showProduct.price}
+              </p>
+              {/* <p className="text-base text-gray-400 line-through">$55.00</p> */}
             </div>
-
-            <p className="mt-4 text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos eius
-              eum reprehenderit dolore vel mollitia optio consequatur hic
-              asperiores inventore suscipit, velit consequuntur, voluptate
-              doloremque iure necessitatibus adipisci magnam porro.
-            </p>
 
             <div className="pt-4">
               <h3 className="text-sm text-gray-800 uppercase mb-1">Size</h3>
@@ -279,8 +324,12 @@ export default function DetailPage() {
             </div>
             {/* detail */}
           </div>
+          <div className="bg-white">
+            <p className="mt-4 text-gray-600">{showProduct.description}</p>
+          </div>
         </div>
       </div>
+
       <div className="bg-white pb-10">
         <h2 className="container mx-auto text-2xl font-medium text-gray-800 uppercase">
           recommended htmlFor you

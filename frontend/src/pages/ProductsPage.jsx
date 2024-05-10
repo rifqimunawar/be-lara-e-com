@@ -14,7 +14,6 @@ export default function ProductsPage() {
       try {
         const data = await getAllProducts()
         setProducts(data)
-        console.log(data, 'kkkkkk')
       } catch (error) {
         console.error('error fethc  api', error)
       }
@@ -84,17 +83,17 @@ export default function ProductsPage() {
             </div>
 
             {/* products */}
-            {products.map((product) => (
-              <div
-                className="grid md:grid-cols-3 grid-cols-2 gap-6"
-                key={product.id}
-              >
-                <div className="bg-white shadow-xl rounded-xl overflow-hidden group">
+            <div className="grid md:grid-cols-3 grid-cols-2 gap-6 col-span-1">
+              {products.map((product) => (
+                <div
+                  className="bg-white shadow-xl rounded-xl overflow-hidden group"
+                  key={product.id}
+                >
                   <div className="relative">
                     <img
                       src={product.img}
                       alt={product.name}
-                      className="w-full"
+                      className="w-full h-40 object-cover"
                     />
                     <div
                       className="absolute inset-0 bg-black bg-opacity-40 flex items-center 
@@ -159,8 +158,8 @@ export default function ProductsPage() {
                     Add to cart
                   </a>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
 
             {/* products */}
           </div>
