@@ -77,8 +77,8 @@ export default function NavbarComponent() {
                 8
               </div>
             </Link>
-            <a
-              href="#"
+            <Link
+              to={'/cart'}
               className="text-center text-gray-700 hover:text-primary transition relative"
             >
               <div className="text-2xl">
@@ -88,7 +88,7 @@ export default function NavbarComponent() {
                 2
               </div>
               <div className="text-xs leading-3">Chart</div>
-            </a>
+            </Link>
             <a
               href="#"
               className="text-center text-gray-700 hover:text-primary transition relative"

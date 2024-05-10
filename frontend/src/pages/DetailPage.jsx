@@ -84,6 +84,26 @@ export default function DetailPage() {
     fetchCategories()
   }, [])
 
+  const [quantity, setQuantity] = useState(1)
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1)
+  }
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => prevQuantity - 1)
+    }
+  }
+  // // Mendapatkan harga produk dari showProduct
+  // const price = showProduct.price
+  // console.log(price)
+
+  // // Menggunakan useState untuk menyimpan total produk
+  // const [totalProduct, setTotalProduct] = useState(0)
+
+  // // Menghitung total produk berdasarkan harga dan kuantitas
+  // useEffect(() => {
+  //   setTotalProduct(price * quantity)
+  // }, [price, quantity])
   return (
     <div>
       <NavbarComponent />
@@ -145,6 +165,9 @@ export default function DetailPage() {
             <div className="flex items-baseline mb-1 space-x-2 font-roboto mt-4">
               <p className="text-xl text-primary font-semibold">
                 Rp: {showProduct.price}
+              </p>
+              <p className="text-xl text-primary font-semibold">
+                {/* Total Product Rp: {totalProduct} */}
               </p>
               {/* <p className="text-base text-gray-400 line-through">$55.00</p> */}
             </div>
@@ -275,14 +298,24 @@ export default function DetailPage() {
             <div className="mt-4">
               <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
               <div className="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
-                <div className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none">
-                  -
+                <div className="">
+                  <button
+                    onClick={decrementQuantity}
+                    className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
+                  >
+                    -
+                  </button>
                 </div>
                 <div className="h-8 w-8 text-base flex items-center justify-center">
-                  4
+                  {quantity}
                 </div>
-                <div className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none">
-                  +
+                <div>
+                  <button
+                    onClick={incrementQuantity}
+                    className="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none"
+                  >
+                    +
+                  </button>
                 </div>
               </div>
             </div>
@@ -300,6 +333,10 @@ export default function DetailPage() {
               >
                 <i className="fa-solid fa-heart"></i> Wishlist
               </a>
+              {/* <ModalProductComponent
+                showProduct={showProduct}
+                quantity={quantity}
+              /> */}
             </div>
 
             <div className="flex gap-3 mt-4">

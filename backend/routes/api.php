@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,11 +18,17 @@ use App\Http\Controllers\UserAuthController;
 |
 */
 
-
+// ================== Guest
 Route::post('register',[UserAuthController::class,'register']);
 Route::post('login',[UserAuthController::class,'login']);
-Route::post('logout', [UserAuthController::class, 'logout']);
 
+// ================== User
+Route::middleware(['auth:sanctum'])->group(function () {
+  Route::get('cart', [CartController::class, 'index']);
+  Route::post('logout', [UserAuthController::class, 'logout']);
+});
+
+// ================== Admin
 Route::get('products', [ProductController::class, 'index']);
 Route::get('products/rec', [ProductController::class, 'recomend']);
 Route::post('products', [ProductController::class, 'store']);
