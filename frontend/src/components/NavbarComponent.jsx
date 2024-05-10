@@ -1,10 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getCategory, logoImg } from '../api'
+import LogoutButton from './LogoutButton'
 
 export default function NavbarComponent() {
   const [searchValue, setSearchValue] = useState('')
   const navigate = useNavigate()
+
+  const [isLogin, setIsLogin] = useState(false)
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken')
+    if (accessToken) {
+      setIsLogin(true)
+    }
+  }, [])
 
   const handleSearch = () => {
     navigate('/')
@@ -141,12 +151,13 @@ export default function NavbarComponent() {
                 Contact us
               </a>
             </div>
-            <a
-              href="/login"
-              className="text-gray-200 hover:text-white transition"
-            >
-              Login
-            </a>
+            {isLogin ? (
+              <LogoutButton />
+            ) : (
+              <Link to="/login" className="btn btn-info">
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </div>
