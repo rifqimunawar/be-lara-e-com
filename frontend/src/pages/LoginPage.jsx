@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { loginUrl } from '../api'
-import { Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 
 export default function LoginPage() {
   const [data, setData] = useState({
@@ -86,9 +86,14 @@ export default function LoginPage() {
               />
             </label>
             {error && <p className="text-red-500 mt-2">{error}</p>}
-            <button type="submit" className="btn btn-primary">
-              Login
-            </button>
+            <div>
+              <button type="submit" className="btn btn-primary mr-2">
+                Login
+              </button>
+              <Link to={'/register'} className="btn btn-secondary mr-3">
+                Register
+              </Link>
+            </div>
           </form>
         </div>
       </div>
